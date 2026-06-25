@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import styles from "./page.module.css";
 
 export default function LeadForm() {
   const [form, setForm] = useState({
@@ -11,7 +12,7 @@ export default function LeadForm() {
     requirement: "",
   });
   const [status, setStatus] = useState<"idle" | "submitting" | "done" | "error">("idle");
-  const [result, setResult] = useState<any>(null);
+  const [result, setResult] = useState<{ category?: string; priority?: string } | null>(null);
 
   function update(field: string, value: string) {
     setForm((f) => ({ ...f, [field]: value }));
@@ -38,80 +39,172 @@ export default function LeadForm() {
   }
 
   return (
-    <div style={{ maxWidth: 480, margin: "60px auto", padding: 24, background: "#fff", borderRadius: 12, boxShadow: "0 2px 12px rgba(0,0,0,0.06)" }}>
-      <h1 style={{ fontSize: 22, marginBottom: 4 }}>Get in touch</h1>
-      <p style={{ color: "#666", marginTop: 0, marginBottom: 20 }}>
-        Tell us what you need — we'll follow up by email.
-      </p>
+    <div className={styles.page}>
 
-      {status === "done" ? (
-        <div style={{ padding: 16, background: "#e8f7ee", borderRadius: 8, color: "#1a7d3d" }}>
-          Thanks! Your message was received and a confirmation email is on its way.
-          {result?.category && (
-            <div style={{ marginTop: 8, fontSize: 13, color: "#444" }}>
-              (Internally classified as <b>{result.category}</b>, priority <b>{result.priority}</b>)
+      {/* ── Brand strip ── */}
+      <aside className={styles.brandStrip}>
+        <span className={styles.brandStamp}>Lead Intelligence</span>
+
+        <div className={styles.brandContent}>
+          <h1 className={styles.tagline}>
+            Tell us what<br />
+            you need —<br />
+            <em className={styles.taglineAccent}>we follow up.</em>
+          </h1>
+          <p className={styles.taglineSub}>
+            Every submission is tracked from the moment we reply.
+            You'll know when we act on it.
+          </p>
+        </div>
+
+        {/* Journey preview */}
+        <div className={styles.journeyWrap}>
+          <div className={styles.journeyPreviewLabel}>how it works</div>
+          <div className={styles.journeyNodes}>
+            <div className={styles.jStep}>
+              <div className={`${styles.jNode} ${styles.jNodeBone}`}></div>
+              <span className={styles.jStepLabel}>Submit</span>
             </div>
+            <div className={styles.jConn}></div>
+            <div className={styles.jStep}>
+              <div className={`${styles.jNode} ${styles.jNodeTrace}`}></div>
+              <span className={styles.jStepLabel}>Sent</span>
+            </div>
+            <div className={styles.jConn}></div>
+            <div className={styles.jStep}>
+              <div className={`${styles.jNode} ${styles.jNodeSignal}`}></div>
+              <span className={`${styles.jStepLabel} ${styles.jStepLabelActive}`}>Opened</span>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      {/* ── Form panel ── */}
+      <main className={styles.formPanel}>
+        <div className={styles.formInner}>
+
+          {status === "done" ? (
+            <div className={styles.successBanner}>
+              <div className={styles.successIcon}>✓</div>
+              <div className={styles.successBody}>
+                <p className={styles.successTitle}>Message received.</p>
+                <p className={styles.successDesc}>
+                  A confirmation is on its way to your inbox — we'll follow up shortly.
+                </p>
+                {result?.category && (
+                  <p className={styles.successMeta}>
+                    Classified as <strong>{result.category}</strong> · Priority{" "}
+                    <strong>{result.priority}</strong>
+                  </p>
+                )}
+              </div>
+            </div>
+          ) : (
+            <form onSubmit={handleSubmit} className={styles.form}>
+              <div className={styles.formHeader}>
+                <h2 className={styles.formTitle}>Get in touch</h2>
+                <p className={styles.formDesc}>
+                  Fill in what you're working on and we'll take it from there.
+                </p>
+              </div>
+
+              <div className={styles.fields}>
+                <Field label="Full Name">
+                  <input
+                    required
+                    value={form.name}
+                    onChange={(e) => update("name", e.target.value)}
+                    className={styles.input}
+                    placeholder="Jane Smith"
+                  />
+                </Field>
+
+                <Field label="Email Address">
+                  <input
+                    required
+                    type="email"
+                    value={form.email}
+                    onChange={(e) => update("email", e.target.value)}
+                    className={styles.input}
+                    placeholder="jane@company.com"
+                  />
+                </Field>
+
+                <div className={styles.fieldRow}>
+                  <Field label="Phone Number">
+                    <input
+                      required
+                      value={form.phone}
+                      onChange={(e) => update("phone", e.target.value)}
+                      className={styles.input}
+                      placeholder="+91 98765 43210"
+                    />
+                  </Field>
+                  <Field label="Company" optional>
+                    <input
+                      value={form.company}
+                      onChange={(e) => update("company", e.target.value)}
+                      className={styles.input}
+                      placeholder="Acme Inc."
+                    />
+                  </Field>
+                </div>
+
+                <Field label="What do you need?">
+                  <textarea
+                    required
+                    rows={4}
+                    value={form.requirement}
+                    onChange={(e) => update("requirement", e.target.value)}
+                    className={`${styles.input} ${styles.textarea}`}
+                    placeholder="Describe what you're looking for..."
+                  />
+                </Field>
+
+                <button
+                  type="submit"
+                  disabled={status === "submitting"}
+                  className={styles.submitBtn}
+                >
+                  {status === "submitting" ? (
+                    <span className={styles.spinner} aria-label="Sending…" />
+                  ) : (
+                    "Send →"
+                  )}
+                </button>
+              </div>
+
+              {status === "error" && (
+                <p className={styles.errorMsg}>
+                  Something went wrong — please try again.
+                </p>
+              )}
+            </form>
           )}
         </div>
-      ) : (
-        <form onSubmit={handleSubmit}>
-          <Field label="Full Name">
-            <input required value={form.name} onChange={(e) => update("name", e.target.value)} style={inputStyle} />
-          </Field>
-          <Field label="Email Address">
-            <input required type="email" value={form.email} onChange={(e) => update("email", e.target.value)} style={inputStyle} />
-          </Field>
-          <Field label="Phone Number">
-            <input required value={form.phone} onChange={(e) => update("phone", e.target.value)} style={inputStyle} />
-          </Field>
-          <Field label="Company Name (optional)">
-            <input value={form.company} onChange={(e) => update("company", e.target.value)} style={inputStyle} />
-          </Field>
-          <Field label="Requirement / Message">
-            <textarea required rows={4} value={form.requirement} onChange={(e) => update("requirement", e.target.value)} style={{ ...inputStyle, resize: "vertical" }} />
-          </Field>
-
-          <button
-            type="submit"
-            disabled={status === "submitting"}
-            style={{
-              width: "100%",
-              padding: "12px",
-              borderRadius: 8,
-              border: "none",
-              background: "#3b3bff",
-              color: "#fff",
-              fontWeight: 600,
-              cursor: "pointer",
-              marginTop: 8,
-            }}
-          >
-            {status === "submitting" ? "Sending..." : "Submit"}
-          </button>
-
-          {status === "error" && (
-            <p style={{ color: "#c0392b", marginTop: 10 }}>Something went wrong. Please try again.</p>
-          )}
-        </form>
-      )}
+      </main>
     </div>
   );
 }
 
-function Field({ label, children }: { label: string; children: React.ReactNode }) {
+/* ── Helpers ── */
+
+function Field({
+  label,
+  children,
+  optional,
+}: {
+  label: string;
+  children: React.ReactNode;
+  optional?: boolean;
+}) {
   return (
-    <div style={{ marginBottom: 14 }}>
-      <label style={{ display: "block", fontSize: 13, color: "#444", marginBottom: 4 }}>{label}</label>
+    <div className={styles.field}>
+      <label className={styles.fieldLabel}>
+        {label}
+        {optional && <span className={styles.optionalTag}>(optional)</span>}
+      </label>
       {children}
     </div>
   );
 }
-
-const inputStyle: React.CSSProperties = {
-  width: "100%",
-  padding: "10px 12px",
-  borderRadius: 6,
-  border: "1px solid #ddd",
-  fontSize: 14,
-  boxSizing: "border-box",
-};

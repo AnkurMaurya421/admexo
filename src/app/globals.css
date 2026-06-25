@@ -1,0 +1,84 @@
+/* ─────────────────────────────────────────────────────────────
+   LeadTrack — Design Tokens & Global Styles
+   Fonts loaded via <link> in layout.tsx
+   ───────────────────────────────────────────────────────────── */
+
+/* ── Tokens ──────────────────────────────────────────────────── */
+:root {
+  /* Surface */
+  --void:       #0D1822;
+  --panel:      #152030;
+  --panel-hi:   #1d2d41;
+
+  /* Text */
+  --bone:       #E3E8F0;
+  --ash:        #64748B;
+  --ash-lt:     #94A3B8;
+
+  /* Accent */
+  --signal:     #D98C52;   /* amber  — engagement events */
+  --trace:      #4C87C8;   /* blue   — outbound events   */
+
+  /* Borders */
+  --border:     rgba(255, 255, 255, 0.06);
+  --border-hi:  rgba(255, 255, 255, 0.10);
+
+  /* Typography */
+  --font-display: 'Syne', system-ui, sans-serif;
+  --font-body:    'DM Sans', system-ui, sans-serif;
+  --font-mono:    'JetBrains Mono', 'Courier New', monospace;
+}
+
+/* ── Reset ────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+
+body {
+  background:               var(--void);
+  color:                    var(--bone);
+  font-family:              var(--font-body);
+  -webkit-font-smoothing:   antialiased;
+  -moz-osx-font-smoothing:  grayscale;
+  line-height:              1.5;
+}
+
+/* ── Focus ────────────────────────────────────────────────────── */
+:focus-visible {
+  outline:        2px solid var(--signal);
+  outline-offset: 3px;
+  border-radius:  4px;
+}
+
+/* ── Motion ───────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration:       0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration:      0.01ms !important;
+  }
+}
+
+/* ── Scrollbar ────────────────────────────────────────────────── */
+::-webkit-scrollbar        { width: 5px; height: 5px; }
+::-webkit-scrollbar-track  { background: var(--void); }
+::-webkit-scrollbar-thumb  { background: var(--border-hi); border-radius: 3px; }
+
+/* ── Form element baseline ────────────────────────────────────── */
+input, textarea, select { font-family: var(--font-body); }
+
+/* ── Animations ───────────────────────────────────────────────── */
+@keyframes lt-glow {
+  0%, 100% { box-shadow: 0 0 7px rgba(217, 140, 82, 0.55); }
+  50%       { box-shadow: 0 0 18px rgba(217, 140, 82, 0.95), 0 0 30px rgba(217, 140, 82, 0.28); }
+}
+@keyframes lt-trace-glow {
+  0%, 100% { box-shadow: 0 0 6px rgba(76, 135, 200, 0.5); }
+  50%       { box-shadow: 0 0 13px rgba(76, 135, 200, 0.9); }
+}
+@keyframes lt-spin {
+  to { transform: rotate(360deg); }
+}
+@keyframes lt-fadeup {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}

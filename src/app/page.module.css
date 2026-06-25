@@ -1,0 +1,338 @@
+/* ─────────────────────────────────────────────────────────────
+   Lead Form — page.module.css
+   ───────────────────────────────────────────────────────────── */
+
+/* ── Page shell ───────────────────────────────────────────────── */
+.page {
+  display: flex;
+  min-height: calc(100vh - 52px); /* 52px = Nav height */
+}
+
+/* ── Brand strip (left) ───────────────────────────────────────── */
+.brandStrip {
+  width: 380px;
+  flex-shrink: 0;
+  min-height: calc(100vh - 52px);
+  background: var(--panel);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  padding: 40px 36px;
+  position: sticky;
+  top: 52px; /* sticks just below the Nav */
+  height: calc(100vh - 52px);
+  overflow: hidden;
+}
+
+.brandStamp {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--ash);
+  flex-shrink: 0;
+}
+
+.brandContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 36px 0;
+}
+
+.tagline {
+  font-family: var(--font-display);
+  font-size: 34px;
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.025em;
+  color: var(--bone);
+  margin: 0 0 14px;
+}
+
+.taglineAccent {
+  color: var(--signal);
+  font-style: normal;
+}
+
+.taglineSub {
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--ash-lt);
+  margin: 0;
+  max-width: 280px;
+}
+
+/* ── Journey preview (brand strip bottom) ─────────────────────── */
+.journeyWrap      { margin-top: auto; }
+
+.journeyPreviewLabel {
+  font-family:    var(--font-mono);
+  font-size:      9px;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color:          var(--ash);
+  margin-bottom:  16px;
+}
+
+.journeyNodes {
+  display: flex;
+  align-items: flex-start;
+}
+
+.jStep {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  width: 52px;
+}
+
+.jNode {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.jNodeBone   { background: var(--bone); opacity: 0.3; }
+.jNodeTrace  { background: var(--trace); animation: lt-trace-glow 2.2s ease-in-out infinite; }
+.jNodeSignal { background: var(--signal); animation: lt-glow 2s ease-in-out infinite; }
+
+.jStepLabel {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--ash-lt);
+  text-align: center;
+}
+
+.jStepLabelActive { color: var(--signal); }
+
+.jConn {
+  flex: 1;
+  height: 1px;
+  background: var(--border-hi);
+  margin-top: 5px;
+  max-width: 32px;
+}
+
+/* ── Form panel (right) ───────────────────────────────────────── */
+.formPanel {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 48px;
+}
+
+.formInner {
+  width: 100%;
+  max-width: 460px;
+}
+
+/* ── Form header ──────────────────────────────────────────────── */
+.formHeader   { margin-bottom: 28px; }
+
+.formTitle {
+  font-family:    var(--font-display);
+  font-size:      24px;
+  font-weight:    700;
+  letter-spacing: -0.02em;
+  color:          var(--bone);
+  margin:         0 0 6px;
+}
+
+.formDesc {
+  font-size:   14px;
+  color:       var(--ash-lt);
+  margin:      0;
+  line-height: 1.55;
+}
+
+/* ── Form layout ──────────────────────────────────────────────── */
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.fields {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.fieldRow {
+  display: flex;
+  gap: 12px;
+}
+
+.fieldRow > .field { flex: 1; }
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.fieldLabel {
+  font-size:      11px;
+  font-weight:    600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color:          var(--ash-lt);
+}
+
+.optionalTag {
+  font-size:      10px;
+  font-weight:    400;
+  text-transform: none;
+  letter-spacing: 0;
+  color:          var(--ash);
+  margin-left:    5px;
+}
+
+/* ── Inputs ───────────────────────────────────────────────────── */
+.input {
+  width:           100%;
+  padding:         11px 14px;
+  border-radius:   8px;
+  border:          1px solid var(--border-hi);
+  background:      var(--panel-hi);
+  color:           var(--bone);
+  font-size:       14px;
+  transition:      border-color 0.15s, box-shadow 0.15s;
+  appearance:      none;
+}
+
+.input::placeholder { color: var(--ash); }
+
+.input:focus {
+  border-color: var(--signal);
+  box-shadow:   0 0 0 3px rgba(217, 140, 82, 0.12);
+  outline:      none;
+}
+
+.textarea {
+  resize:      vertical;
+  line-height: 1.55;
+}
+
+/* ── Submit button ────────────────────────────────────────────── */
+.submitBtn {
+  width:          100%;
+  padding:        13px;
+  margin-top:     8px;
+  border:         none;
+  border-radius:  8px;
+  background:     var(--signal);
+  color:          var(--void);
+  font-family:    var(--font-display);
+  font-size:      15px;
+  font-weight:    700;
+  letter-spacing: -0.01em;
+  cursor:         pointer;
+  transition:     opacity 0.15s, transform 0.1s;
+  display:        flex;
+  align-items:    center;
+  justify-content: center;
+  min-height:     48px;
+}
+
+.submitBtn:hover:not(:disabled)  { opacity: 0.88; }
+.submitBtn:active:not(:disabled) { transform: scale(0.99); }
+.submitBtn:disabled              { opacity: 0.5; cursor: not-allowed; }
+
+/* ── Loading spinner ──────────────────────────────────────────── */
+.spinner {
+  display:       block;
+  width:         18px;
+  height:        18px;
+  border-radius: 50%;
+  border:        2px solid rgba(13, 24, 34, 0.3);
+  border-top-color: var(--void);
+  animation:     lt-spin 0.7s linear infinite;
+}
+
+/* ── Success banner ───────────────────────────────────────────── */
+.successBanner {
+  display:       flex;
+  align-items:   flex-start;
+  gap:           16px;
+  padding:       24px 28px;
+  border:        1px solid rgba(217, 140, 82, 0.22);
+  border-radius: 12px;
+  background:    rgba(217, 140, 82, 0.04);
+  animation:     lt-fadeup 0.4s ease;
+}
+
+.successIcon {
+  flex-shrink:    0;
+  width:          38px;
+  height:         38px;
+  border-radius:  50%;
+  background:     var(--signal);
+  color:          var(--void);
+  font-size:      17px;
+  font-weight:    700;
+  display:        flex;
+  align-items:    center;
+  justify-content: center;
+}
+
+.successBody      { flex: 1; }
+
+.successTitle {
+  font-family:  var(--font-display);
+  font-size:    20px;
+  font-weight:  700;
+  color:        var(--bone);
+  margin:       0 0 8px;
+}
+
+.successDesc {
+  font-size:   14px;
+  line-height: 1.65;
+  color:       var(--ash-lt);
+  margin:      0;
+}
+
+.successMeta {
+  margin-top:    10px;
+  font-family:   var(--font-mono);
+  font-size:     11px;
+  color:         var(--ash);
+  letter-spacing: 0.02em;
+}
+
+.successMeta strong { color: var(--signal); font-weight: 500; }
+
+/* ── Error ────────────────────────────────────────────────────── */
+.errorMsg {
+  margin-top: 12px;
+  font-size:  13px;
+  color:      #e57373;
+  text-align: center;
+}
+
+/* ── Responsive ───────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .page { flex-direction: column; }
+
+  .brandStrip {
+    width:     100%;
+    height:    auto;
+    min-height: auto;
+    position:  static;
+    padding:   24px 20px;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .brandContent  { padding: 20px 0; }
+  .tagline       { font-size: 24px; }
+  .taglineSub    { display: none; }
+  .formPanel     { padding: 32px 20px; }
+  .fieldRow      { flex-direction: column; gap: 16px; }
+}
